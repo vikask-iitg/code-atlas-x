@@ -1,26 +1,235 @@
 @import "tailwindcss";
+@import "@xyflow/react/dist/style.css";
+
+@custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f7f7f5;
+  --surface: #ffffff;
+  --surface-2: #f1f1ee;
+  --border: #e3e2dd;
+  --foreground: #1c1c1a;
+  --muted: #6b6a65;
+  --accent: #2563eb;
+
+  /* diagram palette (light) — PRD Diagram specification */
+  --k-actor-bg: #dbeafe;
+  --k-actor-bd: #60a5fa;
+  --k-frontend-bg: #cfe2ff;
+  --k-frontend-bd: #3b82f6;
+  --k-feature-bg: #fdf3b5;
+  --k-feature-bd: #d4a20b;
+  --k-backend-bg: #c9f2d4;
+  --k-backend-bd: #22a052;
+  --k-persistence-bg: #fcd5dc;
+  --k-persistence-bd: #e0476a;
+  --k-datastore-bg: #fcd5dc;
+  --k-datastore-bd: #e0476a;
+  --k-external-bg: #ece3fd;
+  --k-external-bd: #9a6be8;
+  --k-collapsed-bg: #ecebe7;
+  --k-collapsed-bd: #8d8b84;
+  --k-text: #1c1c1a;
+  --group-bg: rgba(120, 118, 110, 0.07);
+  --group-bd: #cfcdc6;
+  --edge: #4b4a46;
+  --edge-inferred: #a3a199;
+  --edge-label-bg: #ffffff;
+}
+
+.dark {
+  --background: #121212;
+  --surface: #1b1b1b;
+  --surface-2: #242424;
+  --border: #333331;
+  --foreground: #ececea;
+  --muted: #a2a19b;
+  --accent: #60a5fa;
+
+  --k-actor-bg: #1e3a5f;
+  --k-actor-bd: #60a5fa;
+  --k-frontend-bg: #1c3357;
+  --k-frontend-bd: #4f8ff7;
+  --k-feature-bg: #4a3e10;
+  --k-feature-bd: #e3b41b;
+  --k-backend-bg: #163d26;
+  --k-backend-bd: #3cc26e;
+  --k-persistence-bg: #4d1c28;
+  --k-persistence-bd: #f0627f;
+  --k-datastore-bg: #4d1c28;
+  --k-datastore-bd: #f0627f;
+  --k-external-bg: #33244f;
+  --k-external-bd: #a983f0;
+  --k-collapsed-bg: #2b2b29;
+  --k-collapsed-bd: #8d8b84;
+  --k-text: #f1f1ef;
+  --group-bg: rgba(255, 255, 255, 0.04);
+  --group-bd: #3e3e3b;
+  --edge: #c4c3bd;
+  --edge-inferred: #6c6b66;
+  --edge-label-bg: #1b1b1b;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--border);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-display: var(--font-instrument-serif), Georgia, serif;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* React Flow theming */
+.react-flow {
+  --xy-background-color: var(--background);
+  --xy-minimap-background-color: var(--surface);
+  --xy-controls-button-background-color: var(--surface);
+  --xy-controls-button-background-color-hover: var(--surface-2);
+  --xy-controls-button-color: var(--foreground);
+  --xy-controls-button-border-color: var(--border);
+}
+.react-flow__node {
+  transition: opacity 120ms ease;
+}
+.react-flow__node.dimmed,
+.react-flow__edge.dimmed {
+  opacity: 0.18;
+}
+.react-flow__node-groupBox {
+  pointer-events: none !important;
+}
+.react-flow__node-groupBox .group-title {
+  pointer-events: all;
+}
+.react-flow__handle {
+  opacity: 0;
+  width: 6px;
+  height: 6px;
+  min-width: 0;
+  min-height: 0;
+  border: none;
+}
+.react-flow__edge-path {
+  transition: opacity 120ms ease;
+}
+
+.shiki-wrap pre {
+  margin: 0;
+  padding: 12px 0;
+  font-size: 12px;
+  line-height: 1.55;
+  overflow-x: auto;
+  background: transparent !important;
+  counter-reset: line;
+}
+.shiki-wrap code .line::before {
+  counter-increment: line;
+  content: counter(line);
+  display: inline-block;
+  width: 3.2em;
+  margin-right: 1em;
+  text-align: right;
+  color: var(--muted);
+  opacity: 0.6;
+}
+.dark .shiki-wrap .shiki,
+.dark .shiki-wrap .shiki span {
+  color: var(--shiki-dark) !important;
+}
+
+.focus-ring:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ---------- landing page ---------- */
+.hero-backdrop {
+  background:
+    radial-gradient(40% 50% at 18% 12%, color-mix(in srgb, var(--k-frontend-bd) 22%, transparent), transparent 70%),
+    radial-gradient(35% 45% at 82% 8%, color-mix(in srgb, var(--k-feature-bd) 20%, transparent), transparent 70%),
+    radial-gradient(40% 40% at 60% 55%, color-mix(in srgb, var(--k-backend-bd) 12%, transparent), transparent 70%);
+  mask-image: linear-gradient(to bottom, black 40%, transparent);
+}
+.hero-backdrop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(color-mix(in srgb, var(--foreground) 14%, transparent) 1px, transparent 1px);
+  background-size: 22px 22px;
+  mask-image: radial-gradient(60% 55% at 50% 30%, black, transparent);
+}
+.dark .hero-backdrop {
+  opacity: 0.7;
+}
+
+.hero-gradient {
+  background: linear-gradient(100deg, var(--k-frontend-bd), #8b5cf6 45%, var(--k-persistence-bd) 80%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.dropzone {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--k-frontend-bd) 45%, var(--border)), var(--border) 40%, var(--border) 60%, color-mix(in srgb, var(--k-feature-bd) 45%, var(--border)));
+}
+.dropzone[data-drag] {
+  background: linear-gradient(135deg, var(--k-frontend-bd), #8b5cf6, var(--k-persistence-bd));
+}
+
+.preview-grid {
+  background-color: var(--background);
+  background-image: radial-gradient(color-mix(in srgb, var(--foreground) 12%, transparent) 1px, transparent 1px);
+  background-size: 18px 18px;
+  padding: 20px 12px 8px;
+}
+.preview-node {
+  transition: transform 200ms ease;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.preview-node:hover {
+  transform: translateY(-2px);
+}
+
+@keyframes flow-dash {
+  to {
+    stroke-dashoffset: -18;
+  }
+}
+.flow-dash {
+  animation: flow-dash 1.2s linear infinite;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.fade-up {
+  animation: fade-up 600ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-up,
+  .flow-dash {
+    animation: none;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
 }

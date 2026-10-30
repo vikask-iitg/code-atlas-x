@@ -1,0 +1,23 @@
+import { sampleEntries } from "../src/lib/sample";
+import { scan } from "../src/lib/ingest";
+import { analyse } from "../src/lib/analyze";
+import { buildPayload } from "../src/lib/payload";
+import { heuristicDiagram } from "../src/lib/heuristic";
+import { groundDiagram } from "../src/lib/diagramSchema";
+import { layoutDiagram, computeJumps } from "../src/lib/layout";
+import { toMermaid } from "../src/lib/mermaid";
+
+const s = await scan(sampleEntries());
+console.log("scan", s.projectName, s.totalFiles, "kept", s.kept.length, s.ignoredByReason);
+const a = await analyse(s.projectName, s.kept, { totalFiles: s.totalFiles, ignoredFiles: s.ignored.length }, () => {}, new Map());
+console.log("stack", a.stack.map((x) => x.name).join(", "));
+console.log("edges", a.edges.length);
+for (const f of a.files.filter(f=>f.tags.length)) console.log("  ", f.path, f.tags.join(","));
+const p = buildPayload(a);
+const { diagram, problems } = groundDiagram(heuristicDiagram(p), p, "heuristic");
+console.log("problems", problems);
+for (const n of diagram.nodes) console.log("node", n.kind, n.label, n.primaryFile, n.groupId, n.files.length);
+for (const e of diagram.edges) console.log("edge", e.source, "->", e.target, e.label, e.basis);
+const l = await layoutDiagram(diagram);
+console.log("laid out", l.nodes.length, l.groups.length, l.edges.filter(e=>e.points).length, "jumps", computeJumps(l.edges).size);
+console.log(toMermaid(diagram).split("\n").slice(0,8).join("\n"));
