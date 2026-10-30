@@ -4,7 +4,7 @@
 
 # CodeAtlasX
 
-### See how your code *fits together.*
+### Every codebase *deserves a map.*
 
 Drop in a project, or paste a GitHub URL, and get an **interactive architecture diagram in under a minute**: grouped components, labelled relationships and data stores, each one traced back to real files.
 

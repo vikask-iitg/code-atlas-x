@@ -43,9 +43,9 @@ export function Landing({
             className="fade-up mx-auto mt-6 max-w-4xl font-display text-[3.3rem] leading-[1.02] tracking-tight sm:text-[4.4rem] lg:mx-0 xl:text-[5rem]"
             style={{ animationDelay: "60ms" }}
           >
-            See how your code
+            Every codebase
             <br />
-            <em className="hero-gradient pr-2">fits together.</em>
+            <em className="hero-gradient pr-2">deserves a map.</em>
           </h1>
 
           <p
