@@ -21,7 +21,7 @@ const geistMono = Geist_Mono({
 });
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://codeatlasx.vercel.app";
-const TITLE = "CodeAtlasX";
+const TITLE = "CodeAtlasX: See how your code fits together";
 const DESCRIPTION =
   "Turn any codebase into an interactive architecture diagram in under a minute. Drop a zip or folder, or paste a GitHub URL, and get grouped components, labelled relationships and data stores, each traced back to real files. Free, no sign-up.";
 
