@@ -2,7 +2,7 @@
 
 import { useCallback, useSyncExternalStore } from "react";
 
-const KEY = "cv:theme";
+const KEY = "cv:theme:v2"; // v2: default changed to light, so older saved choices are ignored
 
 function subscribe(cb: () => void) {
   const obs = new MutationObserver(cb);
@@ -29,4 +29,5 @@ export function useTheme() {
   return { dark, toggle };
 }
 
-export const themeInitScript = `(function(){try{var t=localStorage.getItem('${KEY}');var d=t?t==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;if(d)document.documentElement.classList.add('dark')}catch(e){}})()`;
+/** Light by default; dark only when the user has picked it with the theme toggle. */
+export const themeInitScript = `(function(){try{if(localStorage.getItem('${KEY}')==='dark')document.documentElement.classList.add('dark')}catch(e){}})()`;
