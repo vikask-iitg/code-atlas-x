@@ -134,8 +134,8 @@ CodeAtlasX also works with **local, private and zipped projects**: student work,
 ## 🚀 Quick start
 
 ```bash
-git clone https://github.com/vikask-iitg/codeatlasx.git
-cd codeatlasx
+git clone https://github.com/vikask-iitg/code-atlas-x.git
+cd code-atlas-x
 npm install
 
 # Optional: enables AI grouping (without it, files are grouped by folder)
@@ -159,7 +159,7 @@ npm start              # or: PORT=3100 npm start
 <details>
 <summary><b>Deploy to Vercel</b></summary>
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvikask-iitg%2Fcodeatlasx&env=ANTHROPIC_API_KEY&envDescription=Optional%3A%20enables%20AI%20grouping%20with%20Claude)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvikask-iitg%2Fcode-atlas-x&env=ANTHROPIC_API_KEY&envDescription=Optional%3A%20enables%20AI%20grouping%20with%20Claude)
 
 Or from the CLI:
 
