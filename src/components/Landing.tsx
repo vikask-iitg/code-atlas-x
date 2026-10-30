@@ -423,71 +423,58 @@ export function Landing({
       </section>
 
       <footer className="border-t border-line">
-        <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-4 px-6 py-8 text-xs text-muted sm:flex-row">
-          <div className="flex items-center gap-2.5">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 py-6 text-xs text-muted lg:flex-row">
+          <div className="flex items-center gap-2.5 text-center lg:text-left">
             <Logo size={22} />
             <span>
               <span className="font-semibold text-foreground">CodeAtlasX</span> · architecture diagrams for any codebase: local, private or on GitHub
             </span>
           </div>
-          <div className="flex items-center gap-1.5">
-            {["Zip", "Folder", "GitHub repo"].map((t) => (
-              <span key={t} className="inline-flex items-center gap-1 rounded-full border border-line bg-surface px-2.5 py-0.5">
-                {t === "GitHub repo" && (
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-                    <path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.7 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z" />
-                  </svg>
-                )}
-                {t}
-              </span>
-            ))}
-          </div>
-        </div>
-        <div className="border-t border-line">
-          <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-3 px-6 py-5 text-xs text-muted sm:flex-row">
+
+          <div className="flex items-center gap-1">
             <a
               href="https://github.com/vikask-iitg"
               target="_blank"
               rel="noreferrer"
-              className="focus-ring group flex items-center gap-2.5 rounded-full py-1 pl-1 pr-3 transition hover:bg-surface"
+              className="focus-ring group flex items-center gap-2 rounded-full py-1 pl-1 pr-3 transition hover:bg-surface"
             >
               {/* eslint-disable-next-line @next/next/no-img-element -- small external avatar */}
               <img
                 src="https://github.com/vikask-iitg.png?size=64"
                 alt=""
-                width={26}
-                height={26}
-                className="h-[26px] w-[26px] rounded-full border border-line bg-surface-2"
+                width={24}
+                height={24}
+                className="h-6 w-6 rounded-full border border-line bg-surface-2"
               />
-              <span>
+              <span className="whitespace-nowrap">
                 Developed by <span className="font-semibold text-foreground group-hover:text-accent">Vikas Kumar Khurendra</span>
-                <span className="ml-1.5 font-mono opacity-70">@vikask-iitg</span>
               </span>
             </a>
-            <div className="flex items-center gap-4">
-              <a
-                href="https://github.com/vikask-iitg"
-                target="_blank"
-                rel="noreferrer"
-                className="focus-ring inline-flex items-center gap-1.5 transition hover:text-foreground"
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-                  <path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.7 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z" />
-                </svg>
-                GitHub profile
-              </a>
-              <a
-                href="https://github.com/vikask-iitg/code-atlas-x"
-                target="_blank"
-                rel="noreferrer"
-                className="focus-ring inline-flex items-center gap-1.5 transition hover:text-foreground"
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                  <path d="m16 18 6-6-6-6M8 6l-6 6 6 6" />
-                </svg>
-                Source code
-              </a>
-            </div>
+            <span className="mx-1 h-4 w-px bg-line" aria-hidden />
+            <a
+              href="https://github.com/vikask-iitg"
+              target="_blank"
+              rel="noreferrer"
+              title="GitHub profile"
+              aria-label="GitHub profile of Vikas Kumar Khurendra"
+              className="focus-ring flex h-8 w-8 items-center justify-center rounded-full transition hover:bg-surface hover:text-foreground"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                <path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.7 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z" />
+              </svg>
+            </a>
+            <a
+              href="https://github.com/vikask-iitg/code-atlas-x"
+              target="_blank"
+              rel="noreferrer"
+              title="Source code"
+              aria-label="CodeAtlasX source code on GitHub"
+              className="focus-ring flex h-8 w-8 items-center justify-center rounded-full transition hover:bg-surface hover:text-foreground"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                <path d="m16 18 6-6-6-6M8 6l-6 6 6 6" />
+              </svg>
+            </a>
           </div>
         </div>
       </footer>
