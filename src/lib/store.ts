@@ -75,7 +75,7 @@ export async function countVisit(increment: boolean): Promise<number | null> {
       body: JSON.stringify({ counter_key: VISITS_KEY, increment }),
       cache: "no-store",
     });
-    if (!res.ok) return null;
+    if (!res.ok) throw new Error(`Supabase visit_count failed: HTTP ${res.status} ${(await res.text()).slice(0, 200)}`);
     return Number(await res.json());
   }
   if (REDIS_URL && REDIS_TOKEN) {
