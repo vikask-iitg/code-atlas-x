@@ -52,3 +52,38 @@ export async function appendFeedback(entry: Record<string, unknown>) {
   await fs.mkdir(DATA_DIR, { recursive: true });
   await fs.appendFile(path.join(DATA_DIR, "feedback.jsonl"), JSON.stringify({ ...entry, at: new Date().toISOString() }) + "\n");
 }
+
+/**
+ * Visitor counter. On serverless hosts the file store is ephemeral, so it uses Upstash Redis
+ * (REST API, e.g. via the Vercel Marketplace integration) when configured; otherwise a local file.
+ * Returns null when no durable storage is available, so the UI can hide the counter.
+ */
+const REDIS_URL = process.env.KV_REST_API_URL ?? process.env.UPSTASH_REDIS_REST_URL;
+const REDIS_TOKEN = process.env.KV_REST_API_TOKEN ?? process.env.UPSTASH_REDIS_REST_TOKEN;
+const VISITS_KEY = "codeatlasx:visitors";
+
+export async function countVisit(increment: boolean): Promise<number | null> {
+  if (REDIS_URL && REDIS_TOKEN) {
+    const cmd = increment ? `incr/${VISITS_KEY}` : `get/${VISITS_KEY}`;
+    const res = await fetch(`${REDIS_URL.replace(/\/$/, "")}/${cmd}`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${REDIS_TOKEN}` },
+      cache: "no-store",
+    });
+    if (!res.ok) return null;
+    const { result } = (await res.json()) as { result: number | string | null };
+    return Number(result ?? 0);
+  }
+  if (!persistentShares) return null;
+  const file = path.join(DATA_DIR, "visitors.json");
+  let count = 0;
+  try {
+    count = Number((JSON.parse(await fs.readFile(file, "utf8")) as { count: number }).count) || 0;
+  } catch {}
+  if (increment) {
+    count += 1;
+    await fs.mkdir(DATA_DIR, { recursive: true });
+    await fs.writeFile(file, JSON.stringify({ count }));
+  }
+  return count;
+}

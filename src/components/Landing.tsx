@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import type { Diagram } from "@/lib/types";
 import { Logo } from "./Viewer";
+import { VisitorCount } from "./VisitorCount";
 
 interface Props {
   onFiles: (f: File[]) => void;
@@ -476,6 +477,9 @@ export function Landing({
               </svg>
             </a>
           </div>
+        </div>
+        <div className="mx-auto flex max-w-5xl justify-center px-6 pb-6">
+          <VisitorCount />
         </div>
       </footer>
     </main>
