@@ -2,6 +2,7 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 import { randomBytes } from "node:crypto";
 import type { Diagram } from "./types";
+import { supabase } from "./supabase";
 
 /**
  * Minimal file-backed store for share links (E3) and feedback. Swap for PostgreSQL in
@@ -54,8 +55,9 @@ export async function appendFeedback(entry: Record<string, unknown>) {
 }
 
 /**
- * Visitor counter. On serverless hosts the file store is ephemeral, so it uses Upstash Redis
- * (REST API, e.g. via the Vercel Marketplace integration) when configured; otherwise a local file.
+ * Visitor counter. On serverless hosts the file store is ephemeral, so it uses Supabase
+ * (site_stats table + visit_count RPC, see supabase/migrations) or Upstash Redis when
+ * configured; otherwise a local file.
  * Returns null when no durable storage is available, so the UI can hide the counter.
  */
 const REDIS_URL = process.env.KV_REST_API_URL ?? process.env.UPSTASH_REDIS_REST_URL;
@@ -63,6 +65,11 @@ const REDIS_TOKEN = process.env.KV_REST_API_TOKEN ?? process.env.UPSTASH_REDIS_R
 const VISITS_KEY = "codeatlasx:visitors";
 
 export async function countVisit(increment: boolean): Promise<number | null> {
+  if (supabase) {
+    const { data, error } = await supabase.rpc("visit_count", { increment });
+    if (error) throw new Error(`Supabase visit_count failed: ${error.message}`);
+    return Number(data);
+  }
   if (REDIS_URL && REDIS_TOKEN) {
     const cmd = increment ? `incr/${VISITS_KEY}` : `get/${VISITS_KEY}`;
     const res = await fetch(`${REDIS_URL.replace(/\/$/, "")}/${cmd}`, {
