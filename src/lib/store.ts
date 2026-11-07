@@ -54,32 +54,17 @@ export async function appendFeedback(entry: Record<string, unknown>) {
 }
 
 /**
- * Visitor counter. On serverless hosts the file store is ephemeral, so production uses Supabase
- * (table + RPC in supabase/migrations) or Upstash Redis when configured; otherwise a local file.
+ * Visitor counter. On serverless hosts the file store is ephemeral, so it uses Upstash Redis
+ * (REST API, e.g. via the Vercel Marketplace integration) when configured; otherwise a local file.
  * Returns null when no durable storage is available, so the UI can hide the counter.
  */
-const SUPABASE_URL = process.env.SUPABASE_URL;
-const SUPABASE_KEY = process.env.SUPABASE_SECRET_KEY ?? process.env.SUPABASE_SERVICE_ROLE_KEY;
 const REDIS_URL = process.env.KV_REST_API_URL ?? process.env.UPSTASH_REDIS_REST_URL;
 const REDIS_TOKEN = process.env.KV_REST_API_TOKEN ?? process.env.UPSTASH_REDIS_REST_TOKEN;
-const VISITS_KEY = "visitors";
+const VISITS_KEY = "codeatlasx:visitors";
 
 export async function countVisit(increment: boolean): Promise<number | null> {
-  if (SUPABASE_URL && SUPABASE_KEY) {
-    const headers: Record<string, string> = { apikey: SUPABASE_KEY, "Content-Type": "application/json" };
-    // Legacy service_role keys are JWTs and also go in Authorization; new sb_secret_ keys use apikey only.
-    if (SUPABASE_KEY.startsWith("eyJ")) headers.Authorization = `Bearer ${SUPABASE_KEY}`;
-    const res = await fetch(`${SUPABASE_URL.replace(/\/$/, "")}/rest/v1/rpc/visit_count`, {
-      method: "POST",
-      headers,
-      body: JSON.stringify({ counter_key: VISITS_KEY, increment }),
-      cache: "no-store",
-    });
-    if (!res.ok) throw new Error(`Supabase visit_count failed: HTTP ${res.status} ${(await res.text()).slice(0, 200)}`);
-    return Number(await res.json());
-  }
   if (REDIS_URL && REDIS_TOKEN) {
-    const cmd = increment ? `incr/codeatlasx:${VISITS_KEY}` : `get/codeatlasx:${VISITS_KEY}`;
+    const cmd = increment ? `incr/${VISITS_KEY}` : `get/${VISITS_KEY}`;
     const res = await fetch(`${REDIS_URL.replace(/\/$/, "")}/${cmd}`, {
       method: "POST",
       headers: { Authorization: `Bearer ${REDIS_TOKEN}` },

@@ -11,8 +11,7 @@ export async function POST(req: Request) {
     const count = await countVisit(increment);
     if (count === null) return NextResponse.json({ error: "Visitor counter not configured." }, { status: 501 });
     return NextResponse.json({ count });
-  } catch (err) {
-    console.error("[visits]", err);
+  } catch {
     return NextResponse.json({ error: "Counter unavailable." }, { status: 503 });
   }
 }
